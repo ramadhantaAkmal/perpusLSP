@@ -1,0 +1,6 @@
+git clone https://github.com/<username>/<repo>
+
+git add .
+git commit -m "apa aja"
+
+git push
