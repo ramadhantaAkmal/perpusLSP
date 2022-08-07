@@ -13,29 +13,23 @@ class model_transaksi extends CI_Model {
         $id_buku = $this->input->post('judul_buku');
 		$tgl_pinjam = $this->input->post('tgl_peminjaman');
 		$status = 'BELUM';
-		$this->db->select('judul_buku');
 		
-		//
-		//
-		//THE MOTHER LODE LORD GOD FKIN PROBLEM
-		//       VVVVVVVVVVVVVVVVVVVVVV
-		$judul = $this->db->get_where('data_buku',['id_buku'=> $id_buku])->row_array();
-		//
-		//
-		//
-		//
+		
+		// the bruh moment incident
+		$this->db->select('judul_buku')->from('data_buku')->where(['id_buku'=> $id_buku]);
+		$judul = $this->db->get()->result_array();
+		
 		
             $data =[
                 'id_transaksi' => $id,
                 'nama_anggota' => $nama_anggota,
 				'id_buku' => $id_buku,
-                'judul_buku' => $judul,
+                'judul_buku' => $judul[0]['judul_buku'],
 				'tgl_peminjaman' => $tgl_pinjam, 
 				'status' => $status, 
             ];
         $id_avail = $this->db->get_where('data_transaksi',['id_transaksi'=> $id])->row_array();
-		// $this->db->select('id_buku')->where('judul_buku',$judul)->get('data_buku')->result();
-		//$id_buku = $this->db->get_where('data_buku',['judul_buku'=> $judul])->row_array();
+		
 		
         if($id == $id_avail){
             $this->session->set_flashdata('pesan','Dipinjam');
